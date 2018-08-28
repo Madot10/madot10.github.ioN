@@ -17,33 +17,91 @@
       enable_page_level_ads: true
       });
     </script>
-    
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-  <title>MADOT</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="./css/navStyle.css">
+    <script src="./js/Main.js"></script>
+
+    <title>MADOT</title>
+
   </head>
 
   <body>
-    <style>
-    body,h1 {font-family: "Raleway", sans-serif}
-    body, html {height: 100%}
-    .bgimg {
-        background-image: url('https://www.digitalplatforms.co.za/wp-content/uploads/2015/11/Website-Design-Background.png');
-        min-height: 100%;
-        background-position: center;
-        background-size: cover;
-    }
-    </style>
+       <div class="header sticky">
+          <a href="#default" class="logo">MADOT</a>
+        </div>
 
-    <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
-      <div class="w3-display-topleft w3-padding-large w3-xlarge">
-        MADOT
+      <div class="portada">
+          <div class="parallax"></div>
+            <div class="fraseContainer"><p class="frase"><b>"Sueña para construir"</b></p>
+              <p>-Miguel De Olim</p>
+            </div>
+          <div class="bottomBotones" style="width:100%">
+              <button style="width:50%" onclick="window.location.href='https://madot10.github.io/UCalculadora/'">UCALCULADORA</button>
+              <button style="width:50%" onclick="window.location.href='https://madot10.github.io/notificaciones/'">NOTIFICACIONES+</button>
+          </div>
       </div>
-      <div class="w3-display-middle">
-        <h1 class="w3-jumbo w3-animate-top">PROXIMAMENTE</h1>
-        <hr class="w3-border-grey" style="margin:auto;width:40%">
-        <p class="w3-large w3-center"><a href="/UCalculadora">UCalculadora</a></p>
+
+      <!-- About MADOT-->
+      <div class="parallax" style="height: 10%; "></div>
+      <div class="about Madot">
+          <div class="row">
+              
+              <div class="column-66">
+                <h1 class="large-font" style="color:#2EAA3A;"><b>MADOT</b></h1>
+                <p><span style="font-size:36px">Take photos like a pro.
+                <br>
+                </span> You should buy this app because lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              </div>
+              <div class="column-33">
+                  <img src="./image/900pxSinNameB12.jpg" width="300" height="300">
+              </div>
+          </div>
       </div>
-    </div>
+
+      <!-- About Notification+-->
+      <div class="parallax" style="height: 10%; "></div>
+      <div class="about N">
+          <div class="row">
+              <div class="column-33">
+                  <img src="./image/noti_logo.png" width="300" height="300">
+              </div>
+              <div class="column-66">
+                <h1 class="large-font" style="color:#2EAA3A;"><b>NOTIFICACION</b></h1>
+                <p><span style="font-size:36px">Take photos like a pro.
+                <br>
+                </span> You should buy this app because lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <br>
+                <form action="https://madot10.github.io/notificaciones/">
+                  <button type="submit">Ir a Notificaciones+</button>
+                </form>
+              </div>
+            
+          </div>
+      </div>
+
+      <!-- About UC-->
+      <div class="parallax" style="height: 10%; "></div>
+      <div class="about UC">
+          <div class="row">
+              <div class="column-66">
+                <h1 class="large-font" style="color:#2EAA3A;"><b>UCALCULADORA</b></h1>
+                <p><span style="font-size:36px">Take photos like a pro.
+                <br>
+                </span> You should buy this app because lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <br>
+                <form action="https://madot10.github.io/UCalculadora/">
+                  <input type="submit" value="Ir a Ucalculadora" />
+                </form>
+              </div>
+            <div class="column-33">
+                <img src="./image/uc_logo.png" width="300" height="300">
+            </div>
+          </div>
+      </div>
+
+      
+      <footer></footer>
   </body>
 </html>
