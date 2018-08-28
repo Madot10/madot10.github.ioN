@@ -8,8 +8,10 @@ var config = {
     messagingSenderId: "501045137892"
 };
 firebase.initializeApp(config);
+
 var token;
 const messaging = firebase.messaging();
+
 messaging.usePublicVapidKey("BEdJWE7lpN5yKFsVa-Ey6ViuyIATsGipQqQ_AaylA3MlSOvWvEUF30DYZkPD8Z8hKYYqe92tGw9S9K3LTHWuy6o");
 
 function Permiso(){
@@ -22,13 +24,14 @@ function Permiso(){
   });  
 }
 
-function getTokenMsg(){
+function getTokenMsg(callBFunc, callBParameterOne){
   messaging.getToken().then(function(currentToken) {
     if (currentToken) {
       token = currentToken;
       //sendTokenToServer(currentToken);
       //updateUIForPushEnabled(currentToken);
       console.log('Current toker', currentToken);
+        callBFunc(callBParameterOne);
     } else {
       // Show permission request.
       console.log('No Instance ID token available. Request permission to generate one.');
@@ -60,7 +63,8 @@ messaging.onTokenRefresh(function() {
 });
 
 messaging.onMessage(function(payload) {
-  console.log('Message received. ', JSON.parse(payload.data.notification));
+  console.log('Message received. ',payload.data.notification, payload);
+    //JSON.parse(payload.data.notification)
 });
 
 function PostTheme(topicName){
@@ -76,4 +80,31 @@ xhttp.open("POST", url);
 xhttp.setRequestHeader("Content-Type", "application/json");
 xhttp.setRequestHeader("Authorization", "key=AAAAdKieEeQ:APA91bEDPiOmOMtrH7cdMqLQXIi9CcYX1-6yKmTkyoLkYNM6Z0fPkb9AwWLyzQvxCuhZzapIxrm7GCulTTKcv6sFZ1h6v7c7YZDmTW0RiQC9-5N1VoBpumR8M_dK3RvPQBUSW8L7rv1QNywfVhCAuDzYekQHcjDANA");
 xhttp.send();
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+      console.log("Installing");
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then(function(swReg){
+             swRegistration = swReg;
+            // Set the initial subscription value
+              swRegistration.pushManager.getSubscription()
+              .then(function(subscription) {
+                isSubscribed = !(subscription === null);
+
+                updateSubscriptionOnServer(subscription);
+
+                if (isSubscribed) {
+                  console.log('User IS subscribed.');
+                } else {
+                  console.log('User is NOT subscribed.');
+                }
+
+                //updateBtn();
+              });
+        });
+  });
+}else{
+    console.log("SW Dont support");
 }
