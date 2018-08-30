@@ -15,9 +15,10 @@ FB_CM.setBackgroundMessageHandler(function(payload) {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
   // Customize notification here
   //var notificationJSON = JSON.parse(payload.data.notification);
-
-  var notificationTitle = payload.notification.title + 'sadsad';
-  var notificationOptions = payload.notification;
+  //payload.notification.title
+  var notificationTitle =  'No no';
+  //payload.notification
+  var notificationOptions = {body: 'Sw trabajando'};
 
   return self.registration.showNotification(notificationTitle,notificationOptions); 
 });

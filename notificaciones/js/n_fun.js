@@ -175,47 +175,17 @@ FB_CM.onTokenRefresh(function () {
 });
 
 /*******TEST FUNCTION****** *///fecha: new Date(), action_click: 'https://madot10.github.io' "click_action": 'https://www.youtube.com'
-function sendNoti(docTosend) {
-    var docOne = {
-        "notification": {
-            title: 'EVENTO',
-            body: 'Ucabista veeeeen, andaaa! ' + new Date()
+function sendNoti() {
+    var message = {
+        data: {
+            "title": 'EVENTO',
+            "body": 'Nueva prueba de data ' + new Date(),
+            "icon": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f'
         },
-        "android": {
-            "priority": 'HIGH',
-            "notification": {
-                "icon": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f'
-            }
-        },
-        "webpush": {
-            "fcm_options": {
-                'link': 'https://twitter.com/'
-            },
-            'notification': {
-                "title": 'EVENTO WEB',
-                "body": 'Ucabista veeWEB WEB WEB ' + new Date(),
-                "icon": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f'
-            }
-        },
-        "apns": {
-        },
-        topic: 'eventosUcab'
-    };
-    var docTwo = {
-        "message": {
-            "topic": "eventosUcab",
-            "notification": {
-                "title": "Portugal vs. Denmark",
-                "body": "great match!"
-            },
-            "data": {
-                "Nick": "Mario",
-                "Room": "PortugalVSDenmark"
-            }
-        }
-    };
+        topic: 'avisosUcab'
+      }
 
-    FB_DB.collection('notification').add(docTosend)
+    FB_DB.collection('notification').add(message)
         .then(function (docRef) {
             console.log("Document written with ID: ", docRef.id);
         })
