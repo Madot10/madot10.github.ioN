@@ -21,3 +21,15 @@ const FB_CM = firebase.messaging();
 
 //USER OBJECT FROM DATA-BASE
 var userDB;
+
+FB_CM.onMessage(function(payload) {
+    var noti = payload.notification;
+    if(noti.data.type == 'newSus'){
+        //Es noti de new suscripcion
+        swRegistration.showNotification(noti.title, noti);
+    }else{
+        msgSnack('Nueva notificacion \n Ver en inicio');
+    }
+    console.log('Message received. ', noti);
+    
+});

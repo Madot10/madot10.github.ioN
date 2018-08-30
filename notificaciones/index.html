@@ -13,40 +13,110 @@
 
     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./css/nStyle.css">
 
     <script src="./js/firebase.js"></script>
     <script src="./js/login.js"></script>
     <script src="./js/n_fun.js"></script>
+    <script src="./js/app_fun.js"></script>
 
-    <script src="./js/fb_fun.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33542195-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-33542195-3');
+    </script>
+
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Nplus">
+    <meta name="apple-mobile-web-app-title" content="Nplus">
+    <meta name="theme-color" content="#4b7f52">
+    <meta name="msapplication-navbutton-color" content="#4b7f52">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="https://madot10.github.io/notificaciones/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" sizes="72x72" href="image/n_logo72.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="image/n_logo72.png">
+    <link rel="icon" sizes="144x144" href="image/n_logo144.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="image/n_logo144.png">
+    <link rel="icon" sizes="512x512" href="image/web_hi_res_512.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="image/web_hi_res_512.png">
+
 </head>
 
 <body>
+    <div class="navegation">
+        <div class="topnav" id="myTopnav">
+            <a class="active">
+                <b>N+ </b>
+                <span id="screenName">Iniciar Sesión</span>
+            </a>
+            <a>HOME</a>
+            <a class="icon" onclick="openNav()">
+                <i style="font-size:20px" class="fa">&#xf0c9;</i>
+            </a>
+        </div>
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a onclick="goToDiv('Home'); closeNav()">Inicio</a>
+            <a onclick="goToDiv('SobreN'); closeNav()">Sobre N+</a>
+            <a onclick="goToDiv('Configuracion'); closeNav()">Configuración</a>
+            <a onclick="LogOut(); closeNav()">Salir</a>
+        </div>
+    </div>
+
     <div class="loader" style="display: inline-block"></div>
 
     <div class="app" style="display: block">
+
+        <!--PANTALLA DE BIENVENIDA -->
         <div class="screen in" style="display: none;">
-            <h2>Bienvenido 10</h2>
-            <p>Inicia sesion con tu cuenta google para disfrutar de beneficios</p>
+            <h2>Bienvenido a <b class="greenM">N+</b></h2>
+            <p>¡Información y avisos al alcance de un click!
+                <br>
+                Plataforma para los Ucabistas
+            </p>
+            <p><b>Solamente necesitas:</b></p>
             <button id="loginBT" onclick="LogIn()">Iniciar con Google</button>
         </div>
 
-        <div class="screen out" style="display: none;">
-            <button id="logoutBT" style="display: none;" onclick="LogOut()">Salir</button>
-        </div>
-
+        <!--PANTALLA DE HOME/FEED-->
         <div class="screen Home" style="display: none;">
-            <h2>Hello World</h2>
-            <p>HOME SCREEN</p>
-            <button id="logoutBT" onclick="LogOut()">Salir</button>
+            <div id="notif">
+            </div>
+            <div class="card">
+                <br>
+                <h3>¡Nada más que mostrar!</h3>
+                <br>
+            </div>
         </div>
 
-        <div class="screen res" style="display: none;">
+        <!--PANTALLA SOBRE N+-->
+        <div class="screen aboutN" style="display: none;">
+            <h2>Sobre proyecto
+                <b>N+</b>
+            </h2>
+            <p>
+                Creado y diseñado con el fin de ofrecer una plataforma de informacion con notificaciones rápidas y a la mano del UCABISTA.
+                <br>
+                <br> Por:
+                <a href="https://madot10.github.io/">Miguel De Olim</a>
+            </p>
+        </div>
+
+        <!--PANTALLA DE CONFIGURACION-->
+        <div class="screen conf" style="display: none;">
             <div>
                 <div class="top">
-                    <h1 class="blueM">Registro SCREEN</h1>
+                    <h1 class="greenM">Configuración</h1>
                 </div>
 
                 <div id="susc">
@@ -60,42 +130,42 @@
                         <div class="option">
                             <span class="aleft centerV">¿Qué haces en la UCAB?</span>
                             <select id="sl_carrera" onchange="setTopicState('rol', this.value)" class="select-square">
-                                    <option value="null">Seleccione</option>
-                                    <option value="prof">Profesor</option>
-                                    <option value="egresado">Egresado</option>
-                                    <option value="representate">Representante</option>
-                                    <optgroup label="Facultad de Ciencias Económicas y Sociales">
-                                        <option value="Administración-de-Empresas">Administración de Empresas</option>
-                                        <option value="contaduria">Contaduria</option>
-                                        <option value="economia">Economia</option>
-                                        <option value="sociologia">Sociologia</option>
-                                        <option value="relaciones-industriales">Relaciones industriales</option>         
-                                    </optgroup>
-                                    <optgroup label="Facultad de Derecho">
-                                        <option value="derecho">Derecho</option>
-                                    </optgroup>
-                                    <optgroup label="Facultad de Ingeniería">
-                                        <option value="ingenieria-civil">Ingenieria civil</option>
-                                        <option value="ingenieria-industrial">Ingenieria industrial</option>
-                                        <option value="ingenieria-informatica">Ingenieria informatica</option>
-                                        <option value="ingenieria-en-telecomunicaciones">Ingenieria en telecomunicaciones</option>
-                                    </optgroup>
-                                    <optgroup label="Facultad de Humanidades y Educación">
-                                        <option value="comunicacion-social">Comunicacion social</option>
-                                        <option value="filosofia">Filosofia</option>
-                                        <option value="letras">Letras</option>
-                                        <option value="psicologia">Psicologia</option>
-                                        <option value="educacion-tronco-comun">Educacion tronco comun</option>
-                                        <option value="educacion-preslied">Educacion preslied</option>
-                                        <option value="educacion-mencion-biologia-y-quimica">Educacion mencion biologia y quimica</option>
-                                        <option value="educacion-mencion-ciencias-pedagogicas">Educacion mencion ciencias pedagogicas</option>
-                                        <option value="educacion-mencion-ciencias-sociales">Educacion mencion ciencias sociales</option>
-                                        <option value="educacion-mencion-fisica-y-matematicas">Educacion mencion fisica y matematicas</option>
-                                        <option value="educacion-mencion-integral">Educacion mencion integral</option>
-                                        <option value="educacion-mencion-filosofia">Educacion mencion filosofia</option>
-                                        <option value="educacion-mencion-preescolar">Educacion mencion preescolar</option>
-                                    </optgroup>   
-                                </select>
+                                <option value="null">Seleccione</option>
+                                <option value="prof">Profesor</option>
+                                <option value="egresado">Egresado</option>
+                                <option value="representate">Representante</option>
+                                <optgroup label="Facultad de Ciencias Económicas y Sociales">
+                                    <option value="Administración-de-Empresas">Administración de Empresas</option>
+                                    <option value="contaduria">Contaduria</option>
+                                    <option value="economia">Economia</option>
+                                    <option value="sociologia">Sociologia</option>
+                                    <option value="relaciones-industriales">Relaciones industriales</option>
+                                </optgroup>
+                                <optgroup label="Facultad de Derecho">
+                                    <option value="derecho">Derecho</option>
+                                </optgroup>
+                                <optgroup label="Facultad de Ingeniería">
+                                    <option value="ingenieria-civil">Ingenieria civil</option>
+                                    <option value="ingenieria-industrial">Ingenieria industrial</option>
+                                    <option value="ingenieria-informatica">Ingenieria informatica</option>
+                                    <option value="ingenieria-en-telecomunicaciones">Ingenieria en telecomunicaciones</option>
+                                </optgroup>
+                                <optgroup label="Facultad de Humanidades y Educación">
+                                    <option value="comunicacion-social">Comunicacion social</option>
+                                    <option value="filosofia">Filosofia</option>
+                                    <option value="letras">Letras</option>
+                                    <option value="psicologia">Psicologia</option>
+                                    <option value="educacion-tronco-comun">Educacion tronco comun</option>
+                                    <option value="educacion-preslied">Educacion preslied</option>
+                                    <option value="educacion-mencion-biologia-y-quimica">Educacion mencion biologia y quimica</option>
+                                    <option value="educacion-mencion-ciencias-pedagogicas">Educacion mencion ciencias pedagogicas</option>
+                                    <option value="educacion-mencion-ciencias-sociales">Educacion mencion ciencias sociales</option>
+                                    <option value="educacion-mencion-fisica-y-matematicas">Educacion mencion fisica y matematicas</option>
+                                    <option value="educacion-mencion-integral">Educacion mencion integral</option>
+                                    <option value="educacion-mencion-filosofia">Educacion mencion filosofia</option>
+                                    <option value="educacion-mencion-preescolar">Educacion mencion preescolar</option>
+                                </optgroup>
+                            </select>
                         </div>
 
 
@@ -185,26 +255,24 @@
                         </div>
                     </div>
                 </div>
-                <button  onclick="CompleteFormRes()">COMPLETAR</button>
+                <button onclick="CompleteFormRes()">GUARDAR CAMBIOS</button>
+                <br>
+                <button onclick="UninstallSW()">CANCELAR SUSCRIPCIÓN</button>
+                <button onclick="LogOut()">SALIR</button>
+                <br>
             </div>
         </div>
 
+        <!--PANTALLA DE AVISOS-->
         <div class="screen aviso" style="display: none;">
-            <h2><b>¡AVISO!</b></h2>
+            <h2>
+                <b>¡AVISO!</b>
+            </h2>
             <p>
                 <span id='mensaje'></span>
             </p>
         </div>
-        
-        <div id="appold" style="display: none;">
-            <button onclick="Permiso()">Solicitar permiso</button>
-            <br>
-            <button onclick="InstallSW()">Instalar SW</button>
-            <br>
-            <button onclick="getTokenMsg(PostTheme,'car')">Registrar to car</button>
-            <br>
-            <button onclick="UninstallSW()">Desinstalar SW</button>
-        </div>
+
     </div>
 
     <div id="snackbar"></div>

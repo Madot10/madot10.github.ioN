@@ -21,70 +21,14 @@ function checkSesion() {
     if (userDB != null) {
         //HAY REGISTRO EN DB
         console.log('Hay registro >> HOME');
+        updateSW();
+        topicData = userDB.topics;
         stateProcess = 'Ready';
         goToDiv('Home');
     } else {
         //NO HAY REGISTRO EN DB
-        console.log("NO hay registro >> REGISTRAR");
-        goToDiv('Registrar')
-    }
-}
-
-function goToDiv(nameDiv, msg) {
-    //OCULTAMOS TODAS LAS SCREEN PARA EL CAMBio
-    let screens = document.getElementsByClassName('screen');
-    for (let element of screens) {
-        element.style.display = 'none';
-    }
-
-    if (loader) {
-        //ocultar
-        ToggleLoader();
-    }
-
-    switch (nameDiv) {
-        case 'LoginAuth':
-            document.getElementsByClassName('in')[0].style.display = 'block';
-            break;
-
-        case 'Home':
-            document.getElementsByClassName('Home')[0].style.display = 'block';
-            break;
-
-        case 'Registrar':
-            document.getElementsByClassName('res')[0].style.display = 'block';
-            SusToService();
-            break;
-
-        case 'Aviso':
-            console.log('GO TO AVISO');
-            document.getElementById('mensaje').innerHTML = msg;
-            document.getElementsByClassName('aviso')[0].style.display = 'block';
-            break;
-
-        default:
-            console.log('Default', nameDiv);
-            break;
-
-    }
-}
-
-
-
-
-function ToggleLoader() {
-    if (!loader) {
-        //Se encuentra oculto -> Mostramos
-        let screens = document.getElementsByClassName('screen');
-        for (let element of screens) {
-            element.style.display = 'none';
-        }
-        document.getElementsByClassName('loader')[0].style.display = 'inline-block';
-        loader = true;
-    } else {
-        //ACTIVO -> desactivar
-        document.getElementsByClassName('loader')[0].style.display = 'none';
-        loader = false;
+        console.log("NO hay registro >> Configuracion");
+        goToDiv('Configuracion')
     }
 }
 
@@ -122,6 +66,14 @@ function LogOut() {
     });
 }
 
+function getCanAccess(){
+    if((FB_AUTH.currentUser) && (userDB != null)){
+        return true;
+    }else{
+        msgSnack('Debes iniciar sesión!');
+        return false;
+    }
+}
 
 function IsRegister(funCall) {
     //BUSCAMOS SI UID ESTA REGISTRADO
@@ -147,8 +99,4 @@ function IsRegister(funCall) {
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
-}
-
-function getDBRes() {
-
 }

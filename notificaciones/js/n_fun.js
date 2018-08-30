@@ -7,7 +7,8 @@ var topicData = {
     agrupaciones: false,
     modelos: false,
     deportes: false,
-    voluntariado: false
+    voluntariado: false,
+    all: true
 };
 //null = nothing 
 //0=negate 1=accept 
@@ -15,6 +16,7 @@ var topicData = {
 var susCode = null;
 var susSWcode = null;
 var stateProcess = '';
+
 //Permiso de notificaciones e instalar SW
 function SusToService() {
 
@@ -33,6 +35,7 @@ function SusToService() {
                 });
         } else {
             susSWcode = 2;
+            //msgSnack('Navegador no compatible!');
             console.log("SW Dont support");
             // 
         }
@@ -42,6 +45,23 @@ function SusToService() {
         //ToggleLoader();
         //goToDiv('Avisos', '¡Deberás permitir las notificaciones para poder continuar con el registro!');
     });
+}
+
+//Rellenar datos
+function setUserConf() {
+    topicData = userDB.topics;
+    //Establecemos el rol
+    document.getElementById('sl_carrera').value = topicData.rol;
+
+    document.getElementById('SavisosUcab').checked = topicData.avisosUcab;
+    document.getElementById('SeventosUcab').checked = topicData.eventosUcab;
+    document.getElementById('SeventosEst').checked = topicData.eventosEst;
+    document.getElementById('Spromo').checked = topicData.promo;
+    document.getElementById('Sagrup').checked = topicData.agrupaciones;
+    document.getElementById('Smodels').checked = topicData.modelos;
+    document.getElementById('Sdeportes').checked = topicData.deportes;
+    document.getElementById('Svoluntariado').checked = topicData.voluntariado;
+
 }
 
 function checkForm() {
@@ -61,7 +81,6 @@ function setTopicState(topic, value) {
 }
 
 function CompleteFormRes() {
-
     //revisamos carrera select
     if (checkForm()) {
         //ACtivamos load
@@ -96,24 +115,78 @@ function CompleteFormRes() {
     }
 }
 
+function updateDataDB(docNew, msgOk){
+    FB_DB.collection('users').where("uid", '==', FB_AUTH.currentUser.uid)
+    .get()
+    .then(function (querySnapshot) {
+        console.log('querySnapshot: ', querySnapshot.docs.length);
+        //DEBE existir solo 1 resg por usuario
+        if (querySnapshot.docs.length >= 1) {
+            var docRefid = querySnapshot.docs[0].id;
+            var docRef = FB_DB.collection('users').doc(docRefid);
+            console.log('updating');
+
+            return docRef.update(docNew)
+                .then(function () {
+                    console.log("Document successfully updated!");
+
+                    if(msgOk){
+                        msgSnack(msgOk);
+                    }
+                    topicData = userDB.topics;
+                    goToDiv('Home');
+                })
+                .catch(function (error) {
+                    // The document probably doesn't exist.
+                    console.error("Error updating document: ", error);
+                    msgSnack('Error de red, vuelva a intentar');
+                });
+
+            if (querySnapshot.docs.length > 1) {
+                //NOTIFICAR ERROR EN REGISTROS
+                //ENVIAR UID, CORREO, LENGTH, DONDE SE EJECUTA ERROR
+                FB_DB.collection('errors').add({
+                    fecha: new Date(),
+                    tipo: "Registros dobles o mas",
+                    datos: docNew
+                })
+            }
+        }
+    })
+    .catch(function (error) {
+        console.log("Error getting documents: ", error);
+        msgSnack('Error de red, vuelva a intentar');
+    });
+}
 //Generamos doc para guardar en DB
 function SaveRegToDB(uid, tokU) {
-    FB_DB.collection('users').add({
+    var dat = {
+        susState: true,
         susDate: new Date(),
         email: FB_AUTH.currentUser.email,
         uid: uid,
         token: tokU,
         topics: topicData
-    })
-        .then(function (docRef) {
-            console.log("Document written with ID: ", docRef.id);
-            msgSnack('Registro completado correctamente');
-            goToDiv('Home');
-        })
-        .catch(function (error) {
-            console.error("Error adding document: ", error);
-            msgSnack('Error de red, vuelva a intentar');
-        })
+    };
+    if (userDB != null) {
+        //Hay reg => update
+        updateDataDB(dat,'Configuracion actualizado correctamente');
+        
+    } else {
+        //No hay reg => create
+        FB_DB.collection('users').add(dat)
+            .then(function (docRef) {
+                console.log("Document written with ID: ", docRef.id);
+                msgSnack('Registro completado correctamente');
+                userDB = dat;
+                goToDiv('Home');
+            })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+                msgSnack('Error de red, vuelva a intentar');
+            })
+    }
+
 }
 
 function msgSnack(mesg) {
@@ -138,41 +211,58 @@ FB_CM.onTokenRefresh(function () {
 
             if (FB_AUTH.currentUser) {
                 //si esta auth con google
-                FB_DB.collection('users').where("uid", '==', FB_AUTH.currentUser.uid)
-                    .get()
-                    .then(function (querySnapshot) {
-                        console.log('querySnapshot: ', querySnapshot.docs.length);
-                        //DEBE existir solo 1 resg por usuario
-                        if (querySnapshot.docs.length >= 1) {
-                            var docRef = querySnapshot.docs[0].data();
-
-                            return docRef.update({
-                                token: refreshedToken
-                            }).then(function () {
-                                console.log("Document successfully updated!");
-                            })
-                                .catch(function (error) {
-                                    // The document probably doesn't exist.
-                                    console.error("Error updating document: ", error);
-                                });
-
-                            if (querySnapshot.docs.length > 1) {
-                                //NOTIFICAR ERROR EN REGISTROS
-                                //ENVIAR UID, CORREO, LENGTH, DONDE SE EJECUTA ERROR
-                            }
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log("Error getting documents: ", error);
-                    });
+                var newT = {
+                    token: refreshedToken
+                };
+                updateDataDB(newT);
             }
 
         }).catch(function (err) {
             console.log('Unable to retrieve refreshed token ', err);
+            FB_DB.collection('errors').add({
+                fecha: new Date(),
+                tipo: "No procede refresh token",
+                datos: userDB
+            })
             //showToken('Unable to retrieve refreshed token ', err);
         });
     }
 });
+
+function updateSW() {
+    if ('serviceWorker' in navigator) {
+        console.log("Updating");
+        navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
+            .then(function (swReg) {
+                swReg.update();
+                FB_CM.useServiceWorker(swReg);
+            });
+    } else {
+        console.log("SW Dont support");
+    }
+}
+
+function UninstallSW() {
+    if ('serviceWorker' in navigator) {
+        console.log("Installing");
+        navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
+            .then(function (swReg) {
+                swRegistration = swReg;
+                swRegistration.unregister()
+                    .then(function (boolean) {
+                        chAct = {
+                            susState: false
+                        };
+                        updateDataDB(chAct,'Esperamos que vuelvas pronto!');
+                        LogOut();
+                        console.log("El proceso de dessuscripcion fue: ", boolean);
+                    });
+
+            });
+    } else {
+        console.log("SW Dont support");
+    }
+}
 
 /*******TEST FUNCTION****** *///fecha: new Date(), action_click: 'https://madot10.github.io' "click_action": 'https://www.youtube.com'
 function sendNoti() {
@@ -181,31 +271,15 @@ function sendNoti() {
         "webpush": {
             "notification": {
                 "title": "Fish Photos 🐟",
-                "body":
-                    "Thanks for signing up for Fish Photos! You now will receive fun daily photos of fish!",
-                "icon": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f',
+                "body": "Para los professs",
+                "icon": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fn_logo144.png?alt=media&token=0a53ed21-2b4f-4aaa-a529-d2ea5062b553',
                 "image": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/images%2Ffont.png?alt=media&token=22171e9d-4fe3-4150-ae51-634027bb0469',
-                "bagde": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f',
-                "data": {
-                    "notificationType": "fishPhoto",
-                    "photoId": "123456"
-                },
-                "click_action": "https://twitter.com/",
-                "actions": [
-                    {
-                        "title": "Like",
-                        "action": "like",
-                        "icon": "icons/heart.png"
-                    },
-                    {
-                        "title": "Unsubscribe",
-                        "action": "unsubscribe",
-                        "icon": "icons/cross.png"
-                    }
-                ]
+                "badge": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f',
+                "click_action": "https://twitter.com/"
             }
         },
-        "topic": 'avisosUcab'
+        "fecha": new Date(),
+        "topic": 'all'
     };
     FB_DB.collection('notification').add(message)
         .then(function (docRef) {

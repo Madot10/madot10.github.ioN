@@ -63,52 +63,49 @@ firebase.initializeApp(config);
 //   });
 // });
 
-FB_CM.onMessage(function(payload) {
-  console.log('Message received. ', payload);
-    //JSON.parse(payload.data.notification)
-});
 
-function PostTheme(topicName){
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-       // Typical action to be performed when the document is ready:
-       console.log("xhttp.responseText",xhttp.responseText); 
-    }
-};
-var url = "https://iid.googleapis.com/iid/v1/"+ token + "/rel/topics/"+topicName;
-xhttp.open("POST", url);
-xhttp.setRequestHeader("Content-Type", "application/json");
-xhttp.setRequestHeader("Authorization", "key=AAAAdKieEeQ:APA91bEDPiOmOMtrH7cdMqLQXIi9CcYX1-6yKmTkyoLkYNM6Z0fPkb9AwWLyzQvxCuhZzapIxrm7GCulTTKcv6sFZ1h6v7c7YZDmTW0RiQC9-5N1VoBpumR8M_dK3RvPQBUSW8L7rv1QNywfVhCAuDzYekQHcjDANA");
-xhttp.send();
-}
 
-function InstallSW(){
-    if ('serviceWorker' in navigator) {
-        console.log("Installing");
-            navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
-            .then(function(swReg){
-                swRegistration = swReg;
-                FB_CM.useServiceWorker(swReg);
-            });
-    }else{
-        console.log("SW Dont support");
-    }
-}
+// function PostTheme(topicName){
+//   var xhttp = new XMLHttpRequest();
+//   xhttp.onreadystatechange = function() {
+//     if (this.readyState == 4 && this.status == 200) {
+//        // Typical action to be performed when the document is ready:
+//        console.log("xhttp.responseText",xhttp.responseText); 
+//     }
+// };
+// var url = "https://iid.googleapis.com/iid/v1/"+ token + "/rel/topics/"+topicName;
+// xhttp.open("POST", url);
+// xhttp.setRequestHeader("Content-Type", "application/json");
+// xhttp.setRequestHeader("Authorization", "key=AAAAdKieEeQ:APA91bEDPiOmOMtrH7cdMqLQXIi9CcYX1-6yKmTkyoLkYNM6Z0fPkb9AwWLyzQvxCuhZzapIxrm7GCulTTKcv6sFZ1h6v7c7YZDmTW0RiQC9-5N1VoBpumR8M_dK3RvPQBUSW8L7rv1QNywfVhCAuDzYekQHcjDANA");
+// xhttp.send();
+// }
 
-function UninstallSW(){
-    if ('serviceWorker' in navigator) {
-        console.log("Installing");
-            navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
-            .then(function(swReg){
-                swRegistration = swReg;
-               swRegistration.unregister()
-               .then(function(boolean){
-                   console.log("El proceso de dessuscripcion fue: ", boolean);
-               });
+// function InstallSW(){
+//     if ('serviceWorker' in navigator) {
+//         console.log("Installing");
+//             navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
+//             .then(function(swReg){
+//                 swRegistration = swReg;
+//                 FB_CM.useServiceWorker(swReg);
+//             });
+//     }else{
+//         console.log("SW Dont support");
+//     }
+// }
+
+// function UninstallSW(){
+//     if ('serviceWorker' in navigator) {
+//         console.log("Installing");
+//             navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
+//             .then(function(swReg){
+//                 swRegistration = swReg;
+//                swRegistration.unregister()
+//                .then(function(boolean){
+//                    console.log("El proceso de dessuscripcion fue: ", boolean);
+//                });
             
-            });
-    }else{
-        console.log("SW Dont support");
-    }
-}
+//             });
+//     }else{
+//         console.log("SW Dont support");
+//     }
+// }
