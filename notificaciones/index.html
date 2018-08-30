@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,22 +8,208 @@
 
     <title>Notification+</title>
 
-    
+
     <link rel="manifest" href="/manifest.json">
 
     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
 
+
+    <link rel="stylesheet" href="./css/nStyle.css">
+
+    <script src="./js/firebase.js"></script>
+    <script src="./js/login.js"></script>
+    <script src="./js/n_fun.js"></script>
+
     <script src="./js/fb_fun.js"></script>
 </head>
+
 <body>
-    <br />
-    <div class="top">
+    <div class="loader" style="display: inline-block"></div>
+
+    <div class="app" style="display: block">
+        <div class="screen in" style="display: none;">
+            <h2>Bienvenido</h2>
+            <p>Inicia sesion con tu cuenta google para disfrutar de beneficios</p>
+            <button id="loginBT" onclick="LogIn()">Iniciar con Google</button>
+        </div>
+
+        <div class="screen out" style="display: none;">
+            <button id="logoutBT" style="display: none;" onclick="LogOut()">Salir</button>
+        </div>
+
+        <div class="screen Home" style="display: none;">
             <h2>Hello World</h2>
+            <p>HOME SCREEN</p>
+            <button id="logoutBT" onclick="LogOut()">Salir</button>
+        </div>
+
+        <div class="screen res" style="display: none;">
+            <div>
+                <div class="top">
+                    <h1 class="blueM">Registro SCREEN</h1>
+                </div>
+
+                <div id="susc">
+                    <div class="elementos">
+                        <p class="separator">
+                            <span class="aleft">
+                                <strong>Datos:</strong>
+                            </span>
+                        </p>
+                        <br>
+                        <div class="option">
+                            <span class="aleft centerV">¿Qué haces en la UCAB?</span>
+                            <select id="sl_carrera" onchange="setTopicState('rol', this.value)" class="select-square">
+                                    <option value="null">Seleccione</option>
+                                    <option value="prof">Profesor</option>
+                                    <option value="egresado">Egresado</option>
+                                    <option value="representate">Representante</option>
+                                    <optgroup label="Facultad de Ciencias Económicas y Sociales">
+                                        <option value="Administración-de-Empresas">Administración de Empresas</option>
+                                        <option value="contaduria">Contaduria</option>
+                                        <option value="economia">Economia</option>
+                                        <option value="sociologia">Sociologia</option>
+                                        <option value="relaciones-industriales">Relaciones industriales</option>         
+                                    </optgroup>
+                                    <optgroup label="Facultad de Derecho">
+                                        <option value="derecho">Derecho</option>
+                                    </optgroup>
+                                    <optgroup label="Facultad de Ingeniería">
+                                        <option value="ingenieria-civil">Ingenieria civil</option>
+                                        <option value="ingenieria-industrial">Ingenieria industrial</option>
+                                        <option value="ingenieria-informatica">Ingenieria informatica</option>
+                                        <option value="ingenieria-en-telecomunicaciones">Ingenieria en telecomunicaciones</option>
+                                    </optgroup>
+                                    <optgroup label="Facultad de Humanidades y Educación">
+                                        <option value="comunicacion-social">Comunicacion social</option>
+                                        <option value="filosofia">Filosofia</option>
+                                        <option value="letras">Letras</option>
+                                        <option value="psicologia">Psicologia</option>
+                                        <option value="educacion-tronco-comun">Educacion tronco comun</option>
+                                        <option value="educacion-preslied">Educacion preslied</option>
+                                        <option value="educacion-mencion-biologia-y-quimica">Educacion mencion biologia y quimica</option>
+                                        <option value="educacion-mencion-ciencias-pedagogicas">Educacion mencion ciencias pedagogicas</option>
+                                        <option value="educacion-mencion-ciencias-sociales">Educacion mencion ciencias sociales</option>
+                                        <option value="educacion-mencion-fisica-y-matematicas">Educacion mencion fisica y matematicas</option>
+                                        <option value="educacion-mencion-integral">Educacion mencion integral</option>
+                                        <option value="educacion-mencion-filosofia">Educacion mencion filosofia</option>
+                                        <option value="educacion-mencion-preescolar">Educacion mencion preescolar</option>
+                                    </optgroup>   
+                                </select>
+                        </div>
+
+
+                        <p class="separator">
+                            <span class="aleft">
+                                <strong>Configuración general:</strong>
+                            </span>
+                        </p>
+                        <br>
+                        <div class="option">
+                            <span class="aleft centerV">Avisos UCAB</span>
+                            <label class="switch aright">
+                                <input class="swIn" id="SavisosUcab" type="checkbox" onchange="setTopicState('avisosUcab', this.checked)" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="option">
+                            <span class="aleft centerV">Eventos UCAB</span>
+                            <label class="switch aright">
+                                <input class="swIn" id="SeventosUcab" type="checkbox" onchange="setTopicState('eventosUcab', this.checked)" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="option">
+                            <span class="aleft centerV">Eventos estudiantiles</span>
+                            <label class="switch aright">
+                                <input class="swIn" id="SeventosEst" type="checkbox" onchange="setTopicState('eventosEst', this.checked)" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <!-- <div class="option">
+                            <span class="aleft centerV">Servicio Público</span>
+                            <label class="switch aright">
+                                <input class="swIn" type="checkbox" id="SserPublico" onchange="setTopicState('eventosUcab', this.checked)">
+                                <span class="slider round"></span>
+                            </label>
+                        </div> -->
+
+                        <div class="option">
+                            <span class="aleft centerV">Promociones/Concursos</span>
+                            <label class="switch aright">
+                                <input class="swIn" type="checkbox" id="Spromo" onchange="setTopicState('promo', this.checked)">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <p class="separator">
+                            <span class="aleft">
+                                <strong>Intereses:</strong>
+                            </span>
+                        </p>
+                        <br>
+
+                        <div class="option">
+                            <span class="aleft centerV">Agrupaciones</span>
+                            <label class="switch aright">
+                                <input class="swIn" type="checkbox" id="Sagrup" onchange="setTopicState('agrupaciones', this.checked)">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="option">
+                            <span class="aleft centerV">Modelos y competencias</span>
+                            <label class="switch aright">
+                                <input class="swIn" type="checkbox" id="Smodels" onchange="setTopicState('modelos', this.checked)">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="option">
+                            <span class="aleft centerV">Deportes</span>
+                            <label class="switch aright">
+                                <input class="swIn" type="checkbox" id="Sdeportes" onchange="setTopicState('deportes', this.checked)">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="option">
+                            <span class="aleft centerV">Voluntariado</span>
+                            <label class="switch aright">
+                                <input class="swIn" type="checkbox" id="Svoluntariado" onchange="setTopicState('voluntariado', this.checked)">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button  onclick="CompleteFormRes()">COMPLETAR</button>
+            </div>
+        </div>
+
+        <div class="screen aviso" style="display: none;">
+            <h2><b>¡AVISO!</b></h2>
+            <p>
+                <span id='mensaje'></span>
+            </p>
+        </div>
+        
+        <div id="appold" style="display: none;">
+            <button onclick="Permiso()">Solicitar permiso</button>
+            <br>
+            <button onclick="InstallSW()">Instalar SW</button>
+            <br>
+            <button onclick="getTokenMsg(PostTheme,'car')">Registrar to car</button>
+            <br>
+            <button onclick="UninstallSW()">Desinstalar SW</button>
+        </div>
     </div>
-    <div class="app">
-        <button onclick="Permiso()">Solicitar permiso</button>
-        <br>
-        <button onclick="getTokenMsg(PostTheme,'car')">Registrar a car</button>
-    </div>
+
+    <div id="snackbar"></div>
+
+
 </body>
+
 </html>

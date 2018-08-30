@@ -1,4 +1,5 @@
 // Initialize Firebase - https://firebase.google.com/docs/web/setup
+/*
 var config = {
   apiKey: "AIzaSyDhAF_PtrVdObuD_78Qcz2BN6Ct4XYA4dA",
     authDomain: "nplus-madot.firebaseapp.com",
@@ -8,62 +9,62 @@ var config = {
     messagingSenderId: "501045137892"
 };
 firebase.initializeApp(config);
+*/
+// var token;
+// const messaging = firebase.messaging();
 
-var token;
-const messaging = firebase.messaging();
+// messaging.usePublicVapidKey("BEdJWE7lpN5yKFsVa-Ey6ViuyIATsGipQqQ_AaylA3MlSOvWvEUF30DYZkPD8Z8hKYYqe92tGw9S9K3LTHWuy6o");
 
-messaging.usePublicVapidKey("BEdJWE7lpN5yKFsVa-Ey6ViuyIATsGipQqQ_AaylA3MlSOvWvEUF30DYZkPD8Z8hKYYqe92tGw9S9K3LTHWuy6o");
+// function Permiso(){
+//   messaging.requestPermission().then(function() {
+//     console.log('Notification permission granted.');
+//     // TODO(developer): Retrieve an Instance ID token for use with FCM.
+//     // ...
+//   }).catch(function(err) {
+//     console.log('Unable to get permission to notify.', err);
+//   });  
+// }
 
-function Permiso(){
-  messaging.requestPermission().then(function() {
-    console.log('Notification permission granted.');
-    // TODO(developer): Retrieve an Instance ID token for use with FCM.
-    // ...
-  }).catch(function(err) {
-    console.log('Unable to get permission to notify.', err);
-  });  
-}
+// function getTokenMsg(callBFunc, callBParameterOne){
+//   messaging.getToken().then(function(currentToken) {
+//     if (currentToken) {
+//       token = currentToken;
+//       //sendTokenToServer(currentToken);
+//       //updateUIForPushEnabled(currentToken);
+//       console.log('Current toker', currentToken);
+//         callBFunc(callBParameterOne);
+//     } else {
+//       // Show permission request.
+//       console.log('No Instance ID token available. Request permission to generate one.');
+//       // Show permission UI.
+//       //updateUIForPushPermissionRequired();
+//       //setTokenSentToServer(false);
+//     }
+//   }).catch(function(err) {
+//     console.log('An error occurred while retrieving token. ', err);
+//     //showToken('Error retrieving Instance ID token. ', err);
+//     //setTokenSentToServer(false);
+//   });
+// }
 
-function getTokenMsg(callBFunc, callBParameterOne){
-  messaging.getToken().then(function(currentToken) {
-    if (currentToken) {
-      token = currentToken;
-      //sendTokenToServer(currentToken);
-      //updateUIForPushEnabled(currentToken);
-      console.log('Current toker', currentToken);
-        callBFunc(callBParameterOne);
-    } else {
-      // Show permission request.
-      console.log('No Instance ID token available. Request permission to generate one.');
-      // Show permission UI.
-      //updateUIForPushPermissionRequired();
-      //setTokenSentToServer(false);
-    }
-  }).catch(function(err) {
-    console.log('An error occurred while retrieving token. ', err);
-    //showToken('Error retrieving Instance ID token. ', err);
-    //setTokenSentToServer(false);
-  });
-}
+// messaging.onTokenRefresh(function() {
+//   messaging.getToken().then(function(refreshedToken) {
+//     console.log('Token refreshed.');
+//     // Indicate that the new Instance ID token has not yet been sent to the
+//     // app server.
+//     console.log('Token', refreshedToken);
+//     //setTokenSentToServer(false);
+//     // Send Instance ID token to app server.
+//     //sendTokenToServer(refreshedToken);
+//     // ...
+//   }).catch(function(err) {
+//     console.log('Unable to retrieve refreshed token ', err);
+//     //showToken('Unable to retrieve refreshed token ', err);
+//   });
+// });
 
-messaging.onTokenRefresh(function() {
-  messaging.getToken().then(function(refreshedToken) {
-    console.log('Token refreshed.');
-    // Indicate that the new Instance ID token has not yet been sent to the
-    // app server.
-    console.log('Token', refreshedToken);
-    //setTokenSentToServer(false);
-    // Send Instance ID token to app server.
-    //sendTokenToServer(refreshedToken);
-    // ...
-  }).catch(function(err) {
-    console.log('Unable to retrieve refreshed token ', err);
-    //showToken('Unable to retrieve refreshed token ', err);
-  });
-});
-
-messaging.onMessage(function(payload) {
-  console.log('Message received. ',payload.data.notification, payload);
+FB_CM.onMessage(function(payload) {
+  console.log('Message received. ', payload);
     //JSON.parse(payload.data.notification)
 });
 
@@ -82,29 +83,32 @@ xhttp.setRequestHeader("Authorization", "key=AAAAdKieEeQ:APA91bEDPiOmOMtrH7cdMqL
 xhttp.send();
 }
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-      console.log("Installing");
-        navigator.serviceWorker.register('/firebase-messaging-sw.js')
-        .then(function(swReg){
-             swRegistration = swReg;
-            // Set the initial subscription value
-              swRegistration.pushManager.getSubscription()
-              .then(function(subscription) {
-                isSubscribed = !(subscription === null);
+function InstallSW(){
+    if ('serviceWorker' in navigator) {
+        console.log("Installing");
+            navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
+            .then(function(swReg){
+                swRegistration = swReg;
+                FB_CM.useServiceWorker(swReg);
+            });
+    }else{
+        console.log("SW Dont support");
+    }
+}
 
-                updateSubscriptionOnServer(subscription);
-
-                if (isSubscribed) {
-                  console.log('User IS subscribed.');
-                } else {
-                  console.log('User is NOT subscribed.');
-                }
-
-                //updateBtn();
-              });
-        });
-  });
-}else{
-    console.log("SW Dont support");
+function UninstallSW(){
+    if ('serviceWorker' in navigator) {
+        console.log("Installing");
+            navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
+            .then(function(swReg){
+                swRegistration = swReg;
+               swRegistration.unregister()
+               .then(function(boolean){
+                   console.log("El proceso de dessuscripcion fue: ", boolean);
+               });
+            
+            });
+    }else{
+        console.log("SW Dont support");
+    }
 }
