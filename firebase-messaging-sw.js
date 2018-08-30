@@ -24,9 +24,23 @@ FB_CM.setBackgroundMessageHandler(function(payload) {
 });
 
 self.addEventListener('notificationclick', function(event) {
-  console.log('event', event);
-  //event.notification.close();
-  event.waitUntil(self.clients.openWindow('https://firebase.google.com'));
+  if (!event.action) {
+    // Was a normal notification click
+    console.log('Notification Click.');
+    return;
+  }
 
-  //... Do your stuff here.
+  switch (event.action) {
+    case 'like':
+      console.log('User LIKES');
+      break;
+
+    case 'unsubscribe':
+      console.log('User UNSUSCRIBE');
+      break;
+
+    default:
+      console.log('Unknown action clicked: ', event.action);
+      break;
+  }
 });

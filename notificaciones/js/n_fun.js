@@ -177,14 +177,36 @@ FB_CM.onTokenRefresh(function () {
 /*******TEST FUNCTION****** *///fecha: new Date(), action_click: 'https://madot10.github.io' "click_action": 'https://www.youtube.com'
 function sendNoti() {
     var message = {
-        data: {
-            "title": 'EVENTO',
-            "body": 'Nueva prueba de data ' + new Date(),
-            "icon": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f'
-        },
-        topic: 'avisosUcab'
-      }
 
+        "webpush": {
+            "notification": {
+                "title": "Fish Photos 🐟",
+                "body":
+                    "Thanks for signing up for Fish Photos! You now will receive fun daily photos of fish!",
+                "icon": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f',
+                "image": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/images%2Ffont.png?alt=media&token=22171e9d-4fe3-4150-ae51-634027bb0469',
+                "bagde": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f',
+                "data": {
+                    "notificationType": "fishPhoto",
+                    "photoId": "123456"
+                },
+                "click_action": "https://twitter.com/",
+                "actions": [
+                    {
+                        "title": "Like",
+                        "action": "like",
+                        "icon": "icons/heart.png"
+                    },
+                    {
+                        "title": "Unsubscribe",
+                        "action": "unsubscribe",
+                        "icon": "icons/cross.png"
+                    }
+                ]
+            }
+        },
+        "topic": 'avisosUcab'
+    };
     FB_DB.collection('notification').add(message)
         .then(function (docRef) {
             console.log("Document written with ID: ", docRef.id);
