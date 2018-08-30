@@ -175,8 +175,8 @@ FB_CM.onTokenRefresh(function () {
 });
 
 /*******TEST FUNCTION****** *///fecha: new Date(), action_click: 'https://madot10.github.io' "click_action": 'https://www.youtube.com'
-function sendNoti() {
-    FB_DB.collection('notification').add({
+function sendNoti(docTosend) {
+    var docOne = {
         "notification": {
             title: 'EVENTO',
             body: 'Ucabista veeeeen, andaaa! ' + new Date()
@@ -200,7 +200,22 @@ function sendNoti() {
         "apns": {
         },
         topic: 'eventosUcab'
-    })
+    };
+    var docTwo = {
+        "message": {
+            "topic": "eventosUcab",
+            "notification": {
+                "title": "Portugal vs. Denmark",
+                "body": "great match!"
+            },
+            "data": {
+                "Nick": "Mario",
+                "Room": "PortugalVSDenmark"
+            }
+        }
+    };
+
+    FB_DB.collection('notification').add(docTosend)
         .then(function (docRef) {
             console.log("Document written with ID: ", docRef.id);
         })
