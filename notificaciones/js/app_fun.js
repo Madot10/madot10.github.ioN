@@ -40,6 +40,11 @@ function goToDiv(nameDiv, msg) {
             }
             break;
 
+        case 'report':
+            changeName('Reporte');
+            document.getElementsByClassName('report')[0].style.display = 'block';
+            break;
+
         case 'Configuracion':
             if (userDB != null) {
                 setUserConf();

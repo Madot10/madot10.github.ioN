@@ -68,6 +68,7 @@
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a onclick="goToDiv('Home'); closeNav()">Inicio</a>
             <a onclick="goToDiv('SobreN'); closeNav()">Sobre N+</a>
+            <a onclick="goToDiv('report'); closeNav()">Reportar</a>
             <a onclick="goToDiv('Configuracion'); closeNav()">Configuración</a>
             <a onclick="LogOut(); closeNav()">Salir</a>
         </div>
@@ -86,6 +87,11 @@
             </p>
             <p><b>Solamente necesitas:</b></p>
             <button id="loginBT" onclick="LogIn()">Iniciar con Google</button>
+        </div>
+
+        <!--PANTALLA DE Report-->
+        <div class="screen report" style="display: none;">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSebn_WYTWdhcgX7AOtfSNS9lNosSxdo0xQ_W9rHtQ7gtD4png/viewform?embedded=true" width="640" height="751" frameborder="0" marginheight="0" marginwidth="0">Cargando...</iframe>
         </div>
 
         <!--PANTALLA DE HOME/FEED-->
