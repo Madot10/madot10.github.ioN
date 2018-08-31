@@ -55,14 +55,14 @@ function goToDiv(nameDiv, msg) {
             break;
 
         case 'Aviso':
-            console.log('GO TO AVISO');
+            //console.log('GO TO AVISO');
             changeName('Aviso');
             document.getElementById('mensaje').innerHTML = msg;
             document.getElementsByClassName('aviso')[0].style.display = 'block';
             break;
 
         default:
-            console.log('Default', nameDiv);
+            //console.log('Default', nameDiv);
             break;
 
     }
@@ -85,7 +85,7 @@ function ToggleLoader() {
 }
 
 function getNotificaciones() {
-    console.log('Getting noti')
+    console.log('Getting notis')
     document.getElementById('notif').innerHTML = '';
     ToggleLoader();
 
@@ -94,11 +94,11 @@ function getNotificaciones() {
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 // doc.data() is never undefined for query doc snapshots
-                console.log('Topic',doc.data().topic);
+                //console.log('Topic',doc.data().topic);
 
                     if (topicData[doc.data().topic]) {
                         //user esta suscripto
-                        console.log(doc.id, " => ", doc.data());
+                        //console.log(doc.id, " => ", doc.data());
                         generateHomeNoti(doc.data());
                     }else if(topicData[doc.data().topic] == undefined){
                         if(topicData['rol'] == doc.data().topic){
@@ -133,7 +133,7 @@ function generateHomeNoti(doc) {
     //Cuerpo
     let boP = document.createElement('p');
     boP.setAttribute('class', 'container');
-    boP.appendChild(document.createTextNode(body));
+    boP.innerHTML = body;
     divMain.appendChild(boP);
 
     //br

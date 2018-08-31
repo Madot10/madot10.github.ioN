@@ -27,7 +27,7 @@ FB_CM.onMessage(function (payload) {
     console.log('payload', payload);
 
     if ('serviceWorker' in navigator) {
-        console.log("Installing");
+        //console.log("Installing");
         navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
             .then(function (swReg) {
                 swReg.showNotification(noti.title, noti);
@@ -37,6 +37,6 @@ FB_CM.onMessage(function (payload) {
     
     msgSnack('Nueva notificacion \n Ver en inicio');
 
-    console.log('Message received. ', noti);
+    //console.log('Message received. ', noti);
 
 });

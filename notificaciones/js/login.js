@@ -4,12 +4,12 @@ var loader = true;
 FB_AUTH.onAuthStateChanged(function (user) {
     if (user) {
         // User is signed in.
-        console.log("AUTH", user);
+        //console.log("AUTH", user);
         IsRegister(checkSesion);
         //ToggleSesion(true);
     } else {
         // No user is signed in.
-        console.log("NOT AUTH", user);
+        //console.log("NOT AUTH", user);
         goToDiv('LoginAuth');
         //ToggleSesion(false);
     }
@@ -17,17 +17,17 @@ FB_AUTH.onAuthStateChanged(function (user) {
 });
 
 function checkSesion() {
-    console.log('CHECKING STATE');
+    //console.log('CHECKING STATE');
     if (userDB != null) {
         //HAY REGISTRO EN DB
-        console.log('Hay registro >> HOME');
+        //console.log('Hay registro >> HOME');
         updateSW();
         topicData = userDB.topics;
         stateProcess = 'Ready';
         goToDiv('Home');
     } else {
         //NO HAY REGISTRO EN DB
-        console.log("NO hay registro >> Configuracion");
+        //console.log("NO hay registro >> Configuracion");
         goToDiv('Configuracion')
     }
 }
@@ -39,7 +39,7 @@ function LogIn() {
 
         var user = result.user;
 
-        console.log("LOGIN OK + result:", result);
+        //console.log("LOGIN OK + result:", result);
         console.log("USER: ", user);
         ToggleLoader();
 
@@ -58,11 +58,11 @@ function LogIn() {
 function LogOut() {
     FB_AUTH.signOut().then(function () {
         // Sign-out successful.
-        console.log("BYE BYE OK");
+        //console.log("BYE BYE OK");
         userDB = null;
     }).catch(function (error) {
         // An error happened.
-        console.log("NOT TODAY", error);
+        //console.log("NOT TODAY", error);
     });
 }
 
@@ -80,11 +80,11 @@ function IsRegister(funCall) {
     FB_DB.collection('users').where("uid", '==', FB_AUTH.currentUser.uid)
         .get()
         .then(function (querySnapshot) {
-            console.log('querySnapshot: ', querySnapshot.docs.length);
+            //console.log('querySnapshot: ', querySnapshot.docs.length);
             //DEBE existir solo 1 resg por usuario
             if (querySnapshot.docs.length >= 1) {
                 console.log('EXISTE');
-                console.log(querySnapshot.docs[0].id, " => ", querySnapshot.docs[0].data());
+                //console.log(querySnapshot.docs[0].id, " => ", querySnapshot.docs[0].data());
                 userDB = querySnapshot.docs[0].data();
 
                 if (querySnapshot.docs.length > 1) {
@@ -92,11 +92,11 @@ function IsRegister(funCall) {
                     //ENVIAR UID, CORREO, LENGTH, DONDE SE EJECUTA ERROR
                 }
             } else {
-                console.log('NO EXISTE');
+                //console.log('NO EXISTE');
             }
             funCall();
         })
         .catch(function (error) {
-            console.log("Error getting documents: ", error);
+            //console.log("Error getting documents: ", error);
         });
 }

@@ -21,12 +21,12 @@ var stateProcess = '';
 function SusToService() {
 
     FB_CM.requestPermission().then(function () {
-        console.log('Notification permission granted.');
+        //console.log('Notification permission granted.');
         // TODO(developer): Retrieve an Instance ID token for use with FCM.
         susCode = 1;
         //INstalamos SW
         if ('serviceWorker' in navigator) {
-            console.log("Installing");
+            //console.log("Installing");
             navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
                 .then(function (swReg) {
                     susSWcode = 1;
@@ -76,7 +76,7 @@ function checkForm() {
 }
 
 function setTopicState(topic, value) {
-    console.log(topic, ' set to ', value);
+    //console.log(topic, ' set to ', value);
     topicData[topic] = value;
 }
 
@@ -119,12 +119,12 @@ function updateDataDB(docNew, msgOk) {
     FB_DB.collection('users').where("uid", '==', FB_AUTH.currentUser.uid)
         .get()
         .then(function (querySnapshot) {
-            console.log('querySnapshot: ', querySnapshot.docs.length);
+            //console.log('querySnapshot: ', querySnapshot.docs.length);
             //DEBE existir solo 1 resg por usuario
             if (querySnapshot.docs.length >= 1) {
                 var docRefid = querySnapshot.docs[0].id;
                 var docRef = FB_DB.collection('users').doc(docRefid);
-                console.log('updating');
+                //console.log('updating');
 
                 return docRef.update(docNew)
                     .then(function () {
@@ -176,7 +176,7 @@ function SaveRegToDB(uid, tokU) {
         //No hay reg => create
         FB_DB.collection('users').add(dat)
             .then(function (docRef) {
-                console.log("Document written with ID: ", docRef.id);
+                //console.log("Document written with ID: ", docRef.id);
                 msgSnack('Registro completado correctamente');
                 userDB = dat;
                 goToDiv('Home');
@@ -203,9 +203,9 @@ function msgSnack(mesg) {
 
 FB_CM.onTokenRefresh(function () {
     //Si no es por el registro que sucede -- procede
-    console.log('Procede refresh?????')
+    //console.log('Procede refresh?????')
     if (stateProcess != 'Resg') {
-        console.log('Procede refresh');
+        //console.log('Procede refresh');
         FB_CM.getToken().then(function (refreshedToken) {
             console.log('Token refresh', refreshedToken);
 
@@ -231,9 +231,9 @@ FB_CM.onTokenRefresh(function () {
 
 function updateSW() {
     FB_CM.requestPermission().then(function () {
-        console.log('Notification permission granted.');
+        //console.log('Notification permission granted.');
         if ('serviceWorker' in navigator) {
-            console.log("Updating");
+            //console.log("Updating");
             navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
                 .then(function (swReg) {
                     swReg.update();
@@ -250,7 +250,7 @@ function updateSW() {
 
 function UninstallSW() {
     if ('serviceWorker' in navigator) {
-        console.log("Installing");
+        //console.log("Installing");
         navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
             .then(function (swReg) {
                 swRegistration = swReg;
@@ -261,37 +261,11 @@ function UninstallSW() {
                         };
                         updateDataDB(chAct, 'Esperamos que vuelvas pronto!');
                         LogOut();
-                        console.log("El proceso de dessuscripcion fue: ", boolean);
+                        //console.log("El proceso de dessuscripcion fue: ", boolean);
                     });
 
             });
     } else {
         console.log("SW Dont support");
     }
-}
-
-/*******TEST FUNCTION****** *///fecha: new Date(), action_click: 'https://madot10.github.io' "click_action": 'https://www.youtube.com'
-function sendNoti() {
-    var message = {
-
-        "webpush": {
-            "notification": {
-                "title": "TODOOOOS",
-                "body": "5",
-                "icon": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fn_logo144.png?alt=media&token=0a53ed21-2b4f-4aaa-a529-d2ea5062b553',
-                "image": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/images%2Ffont.png?alt=media&token=22171e9d-4fe3-4150-ae51-634027bb0469',
-                "badge": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f',
-                "click_action": "https://twitter.com/"
-            }
-        },
-        "fecha": new Date(),
-        "topic": 'all'
-    };
-    FB_DB.collection('notification').add(message)
-        .then(function (docRef) {
-            console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(function (error) {
-            console.error("Error adding document: ", error);
-        });
 }
