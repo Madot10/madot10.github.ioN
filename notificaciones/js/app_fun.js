@@ -1,3 +1,5 @@
+var stInicio = false;
+
 /* Set the width of the side navigation to 250px */
 function openNav() {
     if (getCanAccess()) {
@@ -28,6 +30,7 @@ function goToDiv(nameDiv, msg) {
     switch (nameDiv) {
         case 'LoginAuth':
             changeName('Iniciar Sesión');
+            toggleStyleStart();
             document.getElementsByClassName('in')[0].style.display = 'block';
             break;
 
@@ -160,9 +163,30 @@ function generateHomeNoti(doc) {
         let alink = document.createElement('a');
         alink.setAttribute('href', link);
         alink.setAttribute('class', 'lbt');
-        alink.appendChild(document.createTextNode('Ir a la fuente'));
+        alink.appendChild(document.createTextNode('Abrir enlace'));
         divMain.appendChild(alink);
     }
 
     document.getElementById('notif').appendChild(divMain);
+}
+
+function toggleStyleStart(){
+    if(stInicio){
+        //desactivar
+        document.body.style.backgroundColor = 'white';
+        document.body.style.color = '';
+        document.getElementById('n').style.color = '';
+        document.getElementById('loginBT').style.color = 'white';
+        document.getElementById('loginBT').style.backgroundColor = '#4b7f52';
+        stInicio = false;
+    }else{
+        //activar
+        document.body.style.backgroundColor = '#4b7f52';
+        document.body.style.color = 'white';
+        document.getElementById('n').style.color = 'white';
+        document.getElementById('loginBT').style.color = '#4b7f52';
+        document.getElementById('loginBT').style.backgroundColor = 'white';
+        stInicio = true;
+    }
+    
 }

@@ -9,15 +9,15 @@
   "theme_color": "#4b7f52",
   "icons": [
     {
-      "src": "image/n_logo72.png",
+      "src": "notificaciones/image/n_logo72.png",
       "sizes": "72x72"
     },
     {
-      "src": "image/n_logo144.png",
+      "src": "notificaciones/image/n_logo144.png",
       "sizes": "144x144"
     },
     {
-      "src": "image/web_hi_res_512.png",
+      "src": "notificaciones/image/web_hi_res_512.png",
       "sizes": "512x512"
     }
   ]

@@ -43,7 +43,9 @@ button.n{
     height: 1em;
 }
 
-
+#loginBT{
+    width: 100%;
+}
 /* The switch - the box around the slider */
 .switch {
     position: relative;

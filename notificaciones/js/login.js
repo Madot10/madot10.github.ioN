@@ -41,6 +41,8 @@ function LogIn() {
 
         //console.log("LOGIN OK + result:", result);
         console.log("USER: ", user);
+        //activar
+        toggleStyleStart();
         ToggleLoader();
 
     }).catch(function (error) {
