@@ -115,48 +115,48 @@ function CompleteFormRes() {
     }
 }
 
-function updateDataDB(docNew, msgOk){
+function updateDataDB(docNew, msgOk) {
     FB_DB.collection('users').where("uid", '==', FB_AUTH.currentUser.uid)
-    .get()
-    .then(function (querySnapshot) {
-        console.log('querySnapshot: ', querySnapshot.docs.length);
-        //DEBE existir solo 1 resg por usuario
-        if (querySnapshot.docs.length >= 1) {
-            var docRefid = querySnapshot.docs[0].id;
-            var docRef = FB_DB.collection('users').doc(docRefid);
-            console.log('updating');
+        .get()
+        .then(function (querySnapshot) {
+            console.log('querySnapshot: ', querySnapshot.docs.length);
+            //DEBE existir solo 1 resg por usuario
+            if (querySnapshot.docs.length >= 1) {
+                var docRefid = querySnapshot.docs[0].id;
+                var docRef = FB_DB.collection('users').doc(docRefid);
+                console.log('updating');
 
-            return docRef.update(docNew)
-                .then(function () {
-                    console.log("Document successfully updated!");
+                return docRef.update(docNew)
+                    .then(function () {
+                        console.log("Document successfully updated!");
 
-                    if(msgOk){
-                        msgSnack(msgOk);
-                    }
-                    topicData = userDB.topics;
-                    goToDiv('Home');
-                })
-                .catch(function (error) {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                    msgSnack('Error de red, vuelva a intentar');
-                });
+                        if (msgOk) {
+                            msgSnack(msgOk);
+                        }
+                        topicData = userDB.topics;
+                        goToDiv('Home');
+                    })
+                    .catch(function (error) {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                        msgSnack('Error de red, vuelva a intentar');
+                    });
 
-            if (querySnapshot.docs.length > 1) {
-                //NOTIFICAR ERROR EN REGISTROS
-                //ENVIAR UID, CORREO, LENGTH, DONDE SE EJECUTA ERROR
-                FB_DB.collection('errors').add({
-                    fecha: new Date(),
-                    tipo: "Registros dobles o mas",
-                    datos: docNew
-                })
+                if (querySnapshot.docs.length > 1) {
+                    //NOTIFICAR ERROR EN REGISTROS
+                    //ENVIAR UID, CORREO, LENGTH, DONDE SE EJECUTA ERROR
+                    FB_DB.collection('errors').add({
+                        fecha: new Date(),
+                        tipo: "Registros dobles o mas",
+                        datos: docNew
+                    })
+                }
             }
-        }
-    })
-    .catch(function (error) {
-        console.log("Error getting documents: ", error);
-        msgSnack('Error de red, vuelva a intentar');
-    });
+        })
+        .catch(function (error) {
+            console.log("Error getting documents: ", error);
+            msgSnack('Error de red, vuelva a intentar');
+        });
 }
 //Generamos doc para guardar en DB
 function SaveRegToDB(uid, tokU) {
@@ -170,8 +170,8 @@ function SaveRegToDB(uid, tokU) {
     };
     if (userDB != null) {
         //Hay reg => update
-        updateDataDB(dat,'Configuracion actualizado correctamente');
-        
+        updateDataDB(dat, 'Configuracion actualizado correctamente');
+
     } else {
         //No hay reg => create
         FB_DB.collection('users').add(dat)
@@ -230,16 +230,22 @@ FB_CM.onTokenRefresh(function () {
 });
 
 function updateSW() {
-    if ('serviceWorker' in navigator) {
-        console.log("Updating");
-        navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
-            .then(function (swReg) {
-                swReg.update();
-                FB_CM.useServiceWorker(swReg);
-            });
-    } else {
-        console.log("SW Dont support");
-    }
+    FB_CM.requestPermission().then(function () {
+        console.log('Notification permission granted.');
+        if ('serviceWorker' in navigator) {
+            console.log("Updating");
+            navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
+                .then(function (swReg) {
+                    swReg.update();
+                    FB_CM.useServiceWorker(swReg);
+                });
+        } else {
+            console.log("SW Dont support");
+        }
+    }).catch(function (err) {
+        console.log('Unable to get permission to notify.', err);
+        susCode = 0;
+    });
 }
 
 function UninstallSW() {
@@ -253,7 +259,7 @@ function UninstallSW() {
                         chAct = {
                             susState: false
                         };
-                        updateDataDB(chAct,'Esperamos que vuelvas pronto!');
+                        updateDataDB(chAct, 'Esperamos que vuelvas pronto!');
                         LogOut();
                         console.log("El proceso de dessuscripcion fue: ", boolean);
                     });
@@ -270,8 +276,8 @@ function sendNoti() {
 
         "webpush": {
             "notification": {
-                "title": "Fish Photos 🐟",
-                "body": "Para los professs",
+                "title": "TODOOOOS",
+                "body": "Para todooos",
                 "icon": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fn_logo144.png?alt=media&token=0a53ed21-2b4f-4aaa-a529-d2ea5062b553',
                 "image": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/images%2Ffont.png?alt=media&token=22171e9d-4fe3-4150-ae51-634027bb0469',
                 "badge": 'https://firebasestorage.googleapis.com/v0/b/nplus-madot.appspot.com/o/logo%2Fnoti_logo.png?alt=media&token=0c5c2d56-c17f-4be7-be06-017ebd992f9f',

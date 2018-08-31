@@ -24,7 +24,8 @@ var userDB;
 
 FB_CM.onMessage(function(payload) {
     var noti = payload.notification;
-    if(noti.data.type == 'newSus'){
+    var tyNoti = noti.data.type || null;
+    if(tyNoti == 'newSus'){
         //Es noti de new suscripcion
         swRegistration.showNotification(noti.title, noti);
     }else{
