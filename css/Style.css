@@ -170,3 +170,14 @@ button.st{
 .large-font{
     font-size: 2em;
 }*/
+
+footer{
+    background-color: #374746;
+    color: white;
+    margin: 0;
+    text-align:center;
+    align-content: center;
+}
+a{
+    color: white;
+}

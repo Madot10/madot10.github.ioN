@@ -7,6 +7,7 @@
   "start_url": "https://madot10.github.io/notificaciones/",
   "display": "standalone",
   "theme_color": "#4b7f52",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "notificaciones/image/n_logo72.png",
