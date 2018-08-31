@@ -6,7 +6,7 @@ body{
 /* Style the header with a grey background and some padding */
 .header {
     overflow: hidden;
-    background-color: #2EAA3A;
+    background-color: #4b7f52;
     padding: 20px 10px;
   }
 
@@ -19,6 +19,21 @@ body{
 
 p{
     margin: 0;
+}
+button.st{
+    border-radius: 5px;
+    padding: 0.2em;
+	padding-left: 0.7em;
+	padding-right: 0.7em;
+    background-color: #4b7f52;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.2em;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
   /* Style the header links */
@@ -80,7 +95,7 @@ p{
 }
 
 .bottomBotones button {
-    background-color: #2EAA3A; /* Green background */
+    background-color: #4b7f52; /* Green background */
     border: none; /* Green border */
     color: white; /* White text */
     padding: 1em 2.5em; /* Some padding */
