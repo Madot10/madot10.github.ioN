@@ -307,7 +307,12 @@ However, delay the fade out process for 2.5 seconds *//*
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-    color: #f1f1f1;
+    cursor: pointer;
+}
+
+.sidenav a.anav:hover {
+    color: black;
+    background-color: #dedede;
 }
 
 /* Position and style the close button (top right corner) */
@@ -352,7 +357,8 @@ button{
 
 .card {
     /* Add shadows to create the "card" effect */
-    box-shadow: 7px 9px 8px 0 rgba(0,0,0,0.2);
+    /*box-shadow: 7px 9px 8px 0 rgba(0,0,0,0.2);*/
+    border: 2px solid #e6e6e6;
     transition: 0.3s;
 }
 

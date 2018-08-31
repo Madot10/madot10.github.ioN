@@ -1,7 +1,7 @@
 {
   "name": "Notificaciones+",
   "gcm_sender_id": "103953800507",
-  "short_name": "Nplus",
+  "short_name": "N+",
   "description": "Avisos urgentes al alcance de tu mano",
   "lang": "es-ES",
   "start_url": "https://madot10.github.io/notificaciones/",
