@@ -14,6 +14,24 @@ window.onload = function () {
     }
 }
 
+function OnClickGa(act, typeInter , lb){
+    //si existe etiqueta hacer:
+    //console.log('LB', lb)
+    if(lb){
+        //console.log('enter');
+        gtag('event', act, {
+            'event_category': typeInter + "Interaccion",
+            'event_label': lb
+          });
+    }else{
+        //console.log('not enter');
+        gtag('event', act, {
+            'event_category': typeInter + "Interaccion"
+          });
+    }
+    
+}
+
 //open modals segun string
 function LauchModal(tModal) {
     switch (tModal) {
@@ -47,6 +65,7 @@ function closeModal(tModal) {
 }
 
 function generateLink(redS) {
+    OnClickGa('shareTo'+ redS, 'Social' , 'sharing: ' + JSON.stringify(toShare));
     switch (redS) {
         case 'tw':
             //TWitter
