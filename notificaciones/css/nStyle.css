@@ -377,3 +377,28 @@ button{
     width: 100%;
     font-size: 18px;
 }
+
+/****BUTTON GROUP SYSTEM*/
+.btn-group button {
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    border-radius: 0;
+    margin: 0;
+}
+
+.btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: white;
+    color: #4b7f52;
+}

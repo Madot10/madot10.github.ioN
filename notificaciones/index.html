@@ -13,7 +13,9 @@
     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link rel="stylesheet" href="./css/nStyle.css">
+    <link rel="stylesheet" href="./css/modal.css">
 
     <script src="./js/firebase.js"></script>
     <script src="./js/login.js"></script>
@@ -41,6 +43,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="msapplication-starturl" content="https://madot10.github.io/notificaciones/">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Plataforma de información para los UCABISTAS, basado en push notifications. ¡Información al alcance de un click!. Hecho por Miguel De Olim">
 
     <link rel="icon" sizes="72x72" href="image/n_logo72.png">
     <link rel="apple-touch-icon" sizes="72x72" href="image/n_logo72.png">
@@ -75,22 +78,77 @@
 
     <div class="loader" style="display: inline-block"></div>
 
+    <!-- The Modal IG -->
+    <div id="IgModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal('ig')">&times;</span>
+                <h2>¡Puedes disfrutar más!</h2>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¡Abierto con Instagram!
+                    <br> Algunas funciones están limitadas
+                    <br> Vamos a solucionarlo:
+                    <br>
+                    <br> En
+                    <svg fill="#374746" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                        />
+                    </svg> selecciona:
+                    <br>
+                    <strong>"Abrir con/Open with"</strong>
+                    <br> ¡Elige a tu navegador!
+                    <!--                     <strong>¡Copia el link y pegalo en tu navegador! </strong>
+                    <br> https://goo.gl/tkPk8m -->
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHARE MODAL -->
+    <div id="ShareModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal('shar')">&times;</span>
+                <h2>¡Comparte!</h2>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <button onclick="generateLink('tw')"><i class="fa fa-twitter" style="color: white"></i></button>
+                    <button onclick="generateLink('fb')"><i class="fa fa-facebook" style="color: white"></i></button>
+                    <button onclick="generateLink('wp')"><i class="fa fa-whatsapp" style="color: white"></i></button>
+                    <button onclick="generateLink('em')"><i class="fa fa-envelope" style="color: white"></i></button>
+                    <button onclick="generateLink('cy')"><i class="fa fa-copy" style="color: white"></i></button>
+                </p>
+            </div>
+        </div>
+    </div>
+
     <div class="app" style="display: block">
 
         <!--PANTALLA DE BIENVENIDA -->
         <div class="screen in" style="display: none;">
-            <h2>Bienvenido a <b class="greenM" id='n'>N+</b></h2>
+            <h2>Bienvenido a
+                <b class="greenM" id='n'>N+</b>
+            </h2>
             <p>¡Información y avisos al alcance de un click!
-                <br>
-                Plataforma para los Ucabistas
+                <br> Plataforma para los Ucabistas
             </p>
-            <p><b>Solamente necesitas:</b></p>
-            <button id="loginBT" onclick="LogIn()"><i style="font-size:24px" class="fa">&#xf1a0;</i>  Iniciar con Google</button>
+            <p>
+                <b>Solamente necesitas:</b>
+            </p>
+            <button id="loginBT" onclick="LogIn()">
+                <i style="font-size:24px" class="fa">&#xf1a0;</i> Iniciar con Google</button>
         </div>
 
         <!--PANTALLA DE Report-->
         <div class="screen report" style="display: none;">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSebn_WYTWdhcgX7AOtfSNS9lNosSxdo0xQ_W9rHtQ7gtD4png/viewform?embedded=true" width="100%" height="750" frameborder="0" marginheight="0" marginwidth="0">Cargando...</iframe>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSebn_WYTWdhcgX7AOtfSNS9lNosSxdo0xQ_W9rHtQ7gtD4png/viewform?embedded=true"
+                width="100%" height="750" frameborder="0" marginheight="0" marginwidth="0">Cargando...</iframe>
         </div>
 
         <!--PANTALLA DE HOME/FEED-->
@@ -112,10 +170,8 @@
             <p>
                 Creado y diseñado con el fin de ofrecer una plataforma de informacion con notificaciones rápidas y a la mano del UCABISTA.
                 <br>
-                <br>
-                ¡Información y avisos al alcance de un click!
-                <br>
-                Versión: AARON.1.2
+                <br> ¡Información y avisos al alcance de un click!
+                <br> Versión: AARON.2.0
                 <br>
                 <br> Por:
                 <a href="https://madot10.github.io/">Miguel De Olim</a>
@@ -287,7 +343,7 @@
 
     <div id="snackbar"></div>
 
-
+    <script src="./js/social_fun.js"></script>
 </body>
 
 </html>
