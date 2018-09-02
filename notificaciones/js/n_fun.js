@@ -207,7 +207,7 @@ FB_CM.onTokenRefresh(function () {
     if (stateProcess != 'Resg') {
         //console.log('Procede refresh');
         FB_CM.getToken().then(function (refreshedToken) {
-            console.log('Token refresh', refreshedToken);
+            //console.log('Token refresh', refreshedToken);
 
             if (FB_AUTH.currentUser) {
                 //si esta auth con google

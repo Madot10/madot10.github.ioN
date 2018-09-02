@@ -136,7 +136,7 @@ function generateHomeNoti(doc) {
         link: link
     };
 
-    console.log('Doc gen', doc);
+    //console.log('Doc gen', doc);
     var divMain = document.createElement('div');
     divMain.setAttribute('class', 'card');
 
