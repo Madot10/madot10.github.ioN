@@ -170,6 +170,7 @@ function SaveRegToDB(uid, tokU) {
     };
     if (userDB != null) {
         //Hay reg => update
+        OnClickGa("updateRegOK","Sus", "email: "+ dat.email);
         updateDataDB(dat, 'Configuracion actualizado correctamente');
 
     } else {
@@ -177,6 +178,7 @@ function SaveRegToDB(uid, tokU) {
         FB_DB.collection('users').add(dat)
             .then(function (docRef) {
                 //console.log("Document written with ID: ", docRef.id);
+                OnClickGa("newRegOK","Sus", "email: "+ dat.email);
                 msgSnack('Registro completado correctamente');
                 userDB = dat;
                 goToDiv('Home');
@@ -256,6 +258,7 @@ function UninstallSW() {
                 swRegistration = swReg;
                 swRegistration.unregister()
                     .then(function (boolean) {
+                        OnClickGa("unSusOK","Sus", "email: "+ dat.email);
                         chAct = {
                             susState: false
                         };

@@ -43,8 +43,9 @@ function goToDiv(nameDiv, msg) {
             }
             break;
 
-        case 'report':
-            changeName('Reporte');
+        case 'soporte':
+            OnClickGa("goToSoporte","View");
+            changeName('Soporte');
             document.getElementsByClassName('report')[0].style.display = 'block';
             break;
 

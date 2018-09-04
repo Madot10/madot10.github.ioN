@@ -40,7 +40,8 @@ function LogIn() {
         var user = result.user;
 
         //console.log("LOGIN OK + result:", result);
-        console.log("USER: ", user);
+        //console.log("USER: ", user);
+        OnClickGa("login","Nplus", "Email: "+ user.email);
         //activar
         toggleStyleStart();
         ToggleLoader();
