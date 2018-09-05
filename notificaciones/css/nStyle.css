@@ -402,3 +402,14 @@ button{
     background-color: white;
     color: #4b7f52;
 }
+
+img.imgEmbed{
+    width: 60%;
+    height: auto;
+}
+
+@media screen and (max-width: 768px){
+    img.imgEmbed{
+        width: 100%;
+    }
+}

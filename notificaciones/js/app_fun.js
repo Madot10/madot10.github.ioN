@@ -160,8 +160,9 @@ function generateHomeNoti(doc) {
         //Si hay imagen
         let img = document.createElement('img');
         img.setAttribute('src', image);
-        img.setAttribute('width', '200');
-        img.setAttribute('height', '200');
+        img.setAttribute('class', 'imgEmbed');
+        //img.setAttribute('width', '200');
+        //img.setAttribute('height', '200');
         divMain.appendChild(img);
     }
 
