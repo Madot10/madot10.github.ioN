@@ -29,6 +29,7 @@ function goToDiv(nameDiv, msg) {
     }
     switch (nameDiv) {
         case 'LoginAuth':
+                gtag('config', 'UA-33542195-3', {'page_path': '/login'});
             changeName('Iniciar Sesión');
             toggleStyleStart();
             document.getElementsByClassName('in')[0].style.display = 'block';
@@ -37,6 +38,7 @@ function goToDiv(nameDiv, msg) {
         case 'Home':
             if (getCanAccess()) {
                 stateProcess = 'Ready';
+                    gtag('config', 'UA-33542195-3', {'page_path': '/home'});
                 changeName('Inicio');
                 document.getElementsByClassName('Home')[0].style.display = 'block';
                 getNotificaciones();
@@ -45,6 +47,7 @@ function goToDiv(nameDiv, msg) {
 
         case 'soporte':
             OnClickGa("goToSoporte","View");
+                gtag('config', 'UA-33542195-3', {'page_path': '/support'});
             changeName('Soporte');
             document.getElementsByClassName('report')[0].style.display = 'block';
             break;
@@ -53,6 +56,7 @@ function goToDiv(nameDiv, msg) {
             if (userDB != null) {
                 setUserConf();
             }
+                gtag('config', 'UA-33542195-3', {'page_path': '/config'});
             changeName('Configuración');
             document.getElementsByClassName('conf')[0].style.display = 'block';
             SusToService();
@@ -60,11 +64,13 @@ function goToDiv(nameDiv, msg) {
 
         case 'SobreN':
             changeName('Info');
+                gtag('config', 'UA-33542195-3', {'page_path': '/aboutN'});
             document.getElementsByClassName('aboutN')[0].style.display = 'block';
             break;
 
         case 'Aviso':
             //console.log('GO TO AVISO');
+                gtag('config', 'UA-33542195-3', {'page_path': '/aviso'});
             changeName('Aviso');
             document.getElementById('mensaje').innerHTML = msg;
             document.getElementsByClassName('aviso')[0].style.display = 'block';
