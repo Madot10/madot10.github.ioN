@@ -66,7 +66,7 @@ function setUserConf() {
 
 function checkForm() {
     let slcarrera = document.getElementById('sl_carrera')
-    if (slcarrera.value != 'null') {
+    if ((slcarrera.value != 'null') && (topicData.rol != null)) {
         return true;
     } else {
         alert('Debes seleccionar tu rol en la ucab!');
