@@ -211,7 +211,7 @@ function generateHomeNoti(doc) {
 function toggleStyleStart(){
     if(stInicio){
         //desactivar
-        document.body.style.backgroundColor = 'white';
+        document.body.style.backgroundColor = '#eeeeee';
         document.body.style.color = '';
         document.getElementById('n').style.color = '';
         document.getElementById('loginBT').style.color = 'white';

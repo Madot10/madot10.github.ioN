@@ -358,8 +358,19 @@ button{
 .card {
     /* Add shadows to create the "card" effect */
     /*box-shadow: 7px 9px 8px 0 rgba(0,0,0,0.2);*/
-    border: 2px solid #e6e6e6;
+    margin-bottom: 0.2em;
+    border: 2px solid #d2d2d2;
     transition: 0.3s;
+    background-color: white;
+}
+
+@media only screen and (min-width: 768px){
+    /*For desktop card*/
+    #notif {
+        margin-left: auto;
+        margin-right: auto;
+        width: 60%;
+    }
 }
 
 .container {
