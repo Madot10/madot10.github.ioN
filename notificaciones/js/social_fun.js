@@ -96,7 +96,7 @@ function generateLink(redS) {
 
         case 'wp':
             //What
-            let WHcont = toShare.titulo + ' \n ' + toShare.body + ' \n ' + 'Link: ' + toShare.link + ' \n ' + 'NOTIFICACIONES+ ' + 'https://madot10.github.io/notificaciones';
+            let WHcont = '*'+toShare.titulo+ '*' + ' \n ' + toShare.body + ' \n ' + 'Link: ' + toShare.link + ' \n ' + '*NOTIFICACIONES+* ' + 'https://madot10.github.io/notificaciones';
             encodeCont = encodeURI(WHcont);
             let a = document.createElement('a');
             a.style = { position: 'absolute', left: '-9999px' };
